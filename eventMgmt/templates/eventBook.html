@@ -1,0 +1,193 @@
+<html>
+    <head>
+        <style>
+            
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=number], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+button {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+div {
+	margin: auto;
+	width: 60%;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
+}
+
+            
+        </style>
+    </head>
+    <body >
+
+      <ul>
+        <li><a  href="{{url_for('home')}}">Home</a></li>
+        <li><a class="active" href="#Event">Book an Event</a></li>
+        <li><a href="{{url_for('adminLogin')}}">Admin Login</a></li>
+        <li><a href="{{url_for('eventTrack')}}">Track Your Event</a></li>
+      </ul>
+        <h3 style="text-align: center;">{{info}}</h3>
+        <div>
+        <h1 style="text-align: center;">Book Your Event</h1>
+        Event Type:<br>
+        <select name="Event Type" id="event" form="eventlist">
+            <option value="Wedding">Wedding</option>
+            <option value="Family Function">Family Function</option>
+            <option value="Corporate Event">Corporate Event</option>
+          </select>
+
+          <form action="/eventBook" method="POST" id="eventlist"> 
+            Menu Type:<br>
+            <input type="radio" name="menutype" value="Veg">Veg<br>
+            <input type="radio" name="menutype" value="Non-Veg">Non-Veg<br>
+            <input type="radio" name="menutype" value="Veg and Non-veg">Veg and Non-veg<br> <br>
+
+            Quantity/No. of People:<br>
+            <input type="number" min="0" id="quantity" name="quantity"><br><br>
+            DJ:<br>
+            <input type="radio" name="dj" value="Yes">YES<br>
+            <input type="radio" name="dj" value="No">NO<br><br>
+            Decoration:<br>
+            <input type="radio" name="decor" value="Yes">YES<br>
+            <input type="radio" name="decor" value="No">NO<br><br>
+            Venue:<br>
+            <select name="Venue List" id="venue" form="eventlist">
+                <option value="Hotel Taj">Hotel Taj</option>
+                <option value="Banquet Hall">Banquet Hall</option>
+                <option value="PB Multipurpose Hall">PB Multipurpose Hall</option>
+              </select>
+              
+              <br><br>  
+                <input type="submit" name="Submit" id="submit_button" style="display: none;">
+              </form>
+              <p id="estimate" style="text-align: center;"></p>
+          <br>
+              <button onclick="estimateValue()">Estimate Price</button>
+            </div>
+
+
+          
+          
+          
+
+          <script>
+
+              
+
+              function estimateValue(){
+                document.getElementById("submit_button").style.display="block"
+              $estimate=document.querySelector('input[name="menutype"]:checked').value;
+              $venueprice=0;
+              switch(document.getElementById('venue').value)
+              {
+                case 'Hotel Taj':
+                  $venueprice=100000;
+                  break;
+                case 'Banquet Hall':
+                  $venueprice=75000;
+                  break;
+                case 'PB Multipurpose Hall':
+                  $venueprice=50000;
+                  break;
+              }
+              switch(document.getElementById('event').value){
+                  case 'Wedding':
+                    $venueprice+=30000;
+                    break;
+                  case 'Family Function':
+                    $venueprice+=10000;
+                    break;
+                  case 'Corporate Event':
+                    $venueprice+=50000;
+                    break;
+              }
+              if(document.querySelector('input[name="dj"]:checked').value=='Yes'){
+                $venueprice+=5000;
+              }
+              if(document.querySelector('input[name="decor"]:checked').value=='Yes'){
+                $venueprice+=10000;
+              }
+              if ($estimate=='Veg'){
+                document.getElementById('estimate').innerHTML="Rs."+($venueprice+(200*parseInt(document.getElementById('quantity').value))).toString();}
+              else{
+                document.getElementById('estimate').innerHTML="Rs. "+($venueprice+ (300*parseInt(document.getElementById('quantity').value))).toString();
+              }
+            }
+          </script>
+          
+    </body>
+</html>

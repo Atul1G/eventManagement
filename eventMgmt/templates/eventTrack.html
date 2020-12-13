@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 10%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+body {text-align: center}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
+}
+
+
+#customers {
+              font-family: Arial, Helvetica, sans-serif;
+              border-collapse: collapse;
+              width: 100%;
+            }
+            
+            #customers td, #customers th {
+              border: 1px solid #ddd;
+              padding: 8px;
+            }
+            
+            #customers tr:nth-child(even){background-color: #f2f2f2;}
+            
+            #customers tr:hover {background-color: #ddd;}
+            
+            #customers th {
+              padding-top: 12px;
+              padding-bottom: 12px;
+              text-align: center;
+              background-color: #4CAF50;
+              color: white;
+            }
+        </style>
+    </head>
+    <body>
+
+      <ul>
+        <li><a  href="{{url_for('home')}}">Home</a></li>
+        <li><a href="{{url_for('eventBook')}}">Book an Event</a></li>
+        <li><a href="{{url_for('adminLogin')}}">Admin Login</a></li>
+        <li><a class="active" href="#eventBook">Track Your Event</a></li>
+      </ul>
+        
+        <div>
+        <form action="/eventTrack" method="POST">
+            <input type="number" min="1" id="eventid" name="eventnumber"><br>
+            <input type="submit" name="Submit" value="View">
+        </form>
+        <table id="customers"> 
+            <thead> 
+            <tr> 
+                <th>ID</th> 
+                <th>Event</th> 
+                <th>Buffet Type</th>
+                <th>No. of People</th>
+                <th>DJ</th>
+                <th>Decoration</th>
+                <th>Venue</th>
+                <th>Status</th>
+                <th>Total Amt.</th>
+            </tr> 
+            </thead> 
+            <tbody> 
+                {% for row in value %}  
+                    <tr> 
+                        <td>{{row['id']}}</td> 
+                        <td>{{row['eventType']}}</td>
+                        <td>{{row['buffet']}}</td>
+                        <td>{{row['quantity']}}</td>
+                        <td>{{row['dj']}}</td>
+                        <td>{{row['decor']}}</td>
+                        <td>{{row['venue']}}</td>
+                        <td>{{row['status']}}</td>
+                        <td>{{row['total_amt']}}</td> 
+                    </tr> 
+                {% endfor %} 
+            </tbody> 
+        </table>
+    </div>
+    
+    </body>
+</html>
